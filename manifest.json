@@ -11,8 +11,7 @@
 
 	"browser_action": {
 		"default_icon": "icons/Grapes.svg",
-		"defaut_title": "Add to Collection",
-		"default_popup": "popup/add_menu.html"
+		"default_popup": "popup/popup.html"
 	},
 
 	"permissions": [

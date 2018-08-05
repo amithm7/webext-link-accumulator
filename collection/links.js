@@ -9,10 +9,11 @@ function render() {
 		// Iterate over stored links and display them
 		for (i = 0; i < store.keys.length; i++) {
 			var tab = store[store.keys[i]];
+			console.log(tab);
 
 			var link = document.createElement('a');
 			link.setAttribute('href', tab.url);
-			link.innerHTML = tab.title;
+			link.innerHTML = tab.title + "tags: " + JSON.stringify(tab.tags);
 
 			var li = document.createElement('li');
 

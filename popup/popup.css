@@ -1,0 +1,68 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	margin: 0;
+}
+
+.btn {
+	padding: 0.5em;
+	border: 0;
+	margin: 0 0.7em;
+	border-radius: 0.3em;
+}
+
+#content {
+	width: 33em;
+	/* background-color: #526070;
+	background: linear-gradient(275deg, #526070, #6f859e); */
+	padding: 0.5em;
+}
+
+#header h3 {
+	display: inline-block;
+	width: calc(98% - 38%);
+	color: coral;
+	text-align: center;
+	margin: 0;
+}
+
+#header-btns {
+	display: inline-block;
+	width: 38%;
+}
+
+#edit-form input {
+	margin: 0.5em 0;
+	display: inline-block;
+}
+
+.cross {
+	border-radius: 40%;
+	padding: 0.5em 1em;
+	background-color: darkred;
+	color: aliceblue;
+}
+
+.wide {
+	width: 95%;
+}
+
+.plus {
+	padding: 0.7em 0;
+	border: 0;
+	margin: 0;
+	background-color: forestgreen;
+	color: aliceblue;
+}
+
+#submit-link {
+	background-color: aquamarine;
+}
+
+#view-links {
+	background-color: #2a313d;
+	color: white;
+}

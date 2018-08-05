@@ -6,16 +6,21 @@ window.onload = function() {
 	browser.tabs.query({ currentWindow: true, active: true }).then(function(tabs){
 		var tab = tabs[0];
 		console.log(tab);
-		editMenu(tab);
+		showMenu(tab);
 	});
 
 	// Open collection of links
 	document.getElementById('view-links').addEventListener('click', function() {
 		browser.tabs.create({ url: "../collection/links.html" });
 	});
+
+	// Close popup
+	document.getElementById('close-popup').addEventListener('click', function() {
+		window.close();
+	});
 };
 
-function editMenu(tab) {
+function showMenu(tab) {
 	// A link's data
 	var link = {
 		title: tab.title,
@@ -23,10 +28,7 @@ function editMenu(tab) {
 		favIconUrl: tab.favIconUrl,
 
 		name: getTitleName(tab.title, tab.url),
-		tags: {
-			actors: [],
-			producer: "",
-		}
+		tags: {}
 	};
 
 	// Extract Actual title - To do
@@ -40,12 +42,49 @@ function editMenu(tab) {
 	var url = document.getElementById('link-url');
 	url.value = link.url;
 
+	// Get tags data
+	var tag = document.getElementById('tag');
+	var tagVal = document.getElementById('tag-value');
+
+	// To add multiple tags
+	document.getElementById('tag-plus').addEventListener('click', function() {
+		// Clear input fields
+		saveTag(link, tag, tagVal);
+		tag.value = "";
+		tagVal.value = "";
+	});
+
+	// Multiple tag values
+	document.getElementById('tag-value-plus').addEventListener('click', function() {
+		saveTag(link, tag, tagVal);
+		tagVal.value = "";
+	});
+
 	// Form submit click event
 	document.getElementById('submit-link').addEventListener('click', function() {
 		link.title = title.value;
 		link.url = url.value;
+
+		saveTag(link, tag, tagVal);
+
+		console.log(link);
 		saveTab(link);
 	});
+}
+
+function saveTag(link, tag, tagVal) {
+	var key = tag.value;
+	var value = tagVal.value;
+	if (tag.value !== ""){
+		if(link.tags[key] != undefined && link.tags[key].length > 0) {
+			if (value !== "")
+				link.tags[key].push(value);
+		} else {
+			link.tags[key] = [];
+			if (value !== "")
+				link.tags[key].push(value);
+		}
+	}
 }
 
 function saveTab(link) {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="popup.css">
+	<script src="popup.js"></script>
+	<title>Link Accumulator</title>
+</head>
+<body>
+	<div id="content">
+		<div id="header">
+			<h3>Link Accumulator</h3>
+			<div id="header-btns">
+				<button id="view-links" class="btn">View Collection</button>
+				<button id="close-popup" class="cross btn">X</button>
+			</div>
+		</div>
+
+		<div id="edit-form">
+			<input id="link-name" class="wide" type="text" autofocus> <br>
+			<input id="link-url" class="wide" type="text"> <br>
+
+			<input id="tag" type="text" placeholder="Tag? e.g: 'Author'">
+			<button id="tag-plus" class="plus btn"> + </button>
+			<input id="tag-value" type="text" placeholder="Tag Value? e.g: 'Harper Lee'">
+			<button id="tag-value-plus" class="plus btn"> + </button>
+
+			<button id="submit-link" class="btn">Add</button>
+		</div>
+
+	</div>
+
+</body>
+</html>
