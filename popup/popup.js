@@ -37,17 +37,17 @@ function showMenu(tab) {
 	}
 
 	// Display form for input
-	var title = document.getElementById('link-name');
+	var title = document.getElementsByClassName('link-title')[0];
 	title.value = link.title;
-	var url = document.getElementById('link-url');
+	var url = document.getElementsByClassName('link-url')[0];
 	url.value = link.url;
 
 	// Get tags data
-	var tag = document.getElementById('tag');
-	var tagVal = document.getElementById('tag-value');
+	var tag = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
+	var tagVal = document.getElementsByClassName('tag-value')[0].getElementsByTagName('input')[0];
 
 	// To add multiple tags
-	document.getElementById('tag-plus').addEventListener('click', function() {
+	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		// Clear input fields
 		saveTag(link, tag, tagVal);
 		tag.value = "";
@@ -55,13 +55,14 @@ function showMenu(tab) {
 	});
 
 	// Multiple tag values
-	document.getElementById('tag-value-plus').addEventListener('click', function() {
+	document.getElementsByClassName('tag-value')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		saveTag(link, tag, tagVal);
 		tagVal.value = "";
 	});
 
 	// Form submit click event
-	document.getElementById('submit-link').addEventListener('click', function() {
+	document.getElementsByClassName('form-submit')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
+		console.log("dsdsd");
 		link.title = title.value;
 		link.url = url.value;
 

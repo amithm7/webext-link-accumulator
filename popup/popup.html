@@ -6,29 +6,47 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="popup.css">
 	<script src="popup.js"></script>
-	<title>Link Accumulator</title>
+	<title>AmMo's Link Accumulator</title>
 </head>
 <body>
-	<div id="content">
-		<div id="header">
-			<h3>Link Accumulator</h3>
-			<div id="header-btns">
-				<button id="view-links" class="btn">View Collection</button>
-				<button id="close-popup" class="cross btn">X</button>
+	<div class="content row">
+		<section class="top row">
+			<span class="header col-6">AmMo's Link Accumulator</span>
+
+			<div class="main-btns col-6">
+				<button id="view-links" class="btn">Open Collection</button>
+				<button id="close-popup" class="close btn">X</button>
 			</div>
-		</div>
+		</section>
 
-		<div id="edit-form">
-			<input id="link-name" class="wide" type="text" autofocus> <br>
-			<input id="link-url" class="wide" type="text"> <br>
+		<section class="form row">
+			<section class="form-basic col-12">
+				<input class="link-title col-12" autofocus> <br>
+				<input class="link-url col-12">
+			</section>
 
-			<input id="tag" type="text" placeholder="Tag? e.g: 'Author'">
-			<button id="tag-plus" class="plus btn"> + </button>
-			<input id="tag-value" type="text" placeholder="Tag Value? e.g: 'Harper Lee'">
-			<button id="tag-value-plus" class="plus btn"> + </button>
+			<section class="form-adv col-12">
+				<div class="tag col-12">
+					<div class="tag-name col-6">
+						<input placeholder="Tag? e.g: 'Author'" type="text">
+						<button class="btn more"> + </button>
+					</div>
+					<div class="tag-value col-6">
+						<input placeholder="Tag Value? e.g: 'Harper Lee'" type="text">
+						<button class="btn more"> + </button>
+					</div>
+				</div>
+			</section>
 
-			<button id="submit-link" class="btn">Add</button>
-		</div>
+			<section class="form-submit">
+				<button class="btn"> Add </button>
+			</section>
+		</section>
+
+		<section class="footer row right">
+			<p>Version: </p>
+			<span class="version"></span>
+		</section>
 
 	</div>
 
