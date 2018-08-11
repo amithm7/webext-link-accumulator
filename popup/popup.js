@@ -10,12 +10,12 @@ window.onload = function() {
 	});
 
 	// Open collection of links
-	document.getElementById('view-links').addEventListener('click', function() {
+	document.getElementsByClassName('view-links')[0].addEventListener('click', function() {
 		browser.tabs.create({ url: "../collection/links.html" });
 	});
 
 	// Close popup
-	document.getElementById('close-popup').addEventListener('click', function() {
+	document.getElementsByClassName('close-popup')[0].addEventListener('click', function() {
 		window.close();
 	});
 };

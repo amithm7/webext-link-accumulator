@@ -5,21 +5,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="popup.css">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 	<script src="popup.js"></script>
 	<title>AmMo's Link Accumulator</title>
 </head>
 <body>
-	<div class="content row">
-		<section class="top row">
-			<span class="header col-6">AmMo's Link Accumulator</span>
+	<div class="content row container">
+		<section class="top col-12">
+			<span class="header col-6">AmMoLiAc</span>
 
 			<div class="main-btns col-6">
-				<button id="view-links" class="btn">Open Collection</button>
-				<button id="close-popup" class="close btn">X</button>
+				<button class="view-links btn">Open Collection</button>
+				<button class="close-popup close btn">X</button>
 			</div>
 		</section>
 
-		<section class="form row">
+		<section class="form col-12">
 			<section class="form-basic col-12">
 				<input class="link-title col-12" autofocus> <br>
 				<input class="link-url col-12">
@@ -28,22 +29,22 @@
 			<section class="form-adv col-12">
 				<div class="tag col-12">
 					<div class="tag-name col-6">
-						<input placeholder="Tag? e.g: 'Author'" type="text">
-						<button class="btn more"> + </button>
+						<input placeholder="Tag? e.g: 'Author'" type="text"><button class="btn more tooltip">+
+							<span class="tooltiptext">Add another tag</span></button>
 					</div>
 					<div class="tag-value col-6">
-						<input placeholder="Tag Value? e.g: 'Harper Lee'" type="text">
-						<button class="btn more"> + </button>
+						<input placeholder="Tag Value? e.g: 'Harper Lee'" type="text"><button class="btn more tooltip">+
+							<span class="tooltiptext">Add another value</span></button>
 					</div>
 				</div>
 			</section>
 
-			<section class="form-submit">
-				<button class="btn"> Add </button>
+			<section class="form-submit col-12">
+				<button class="btn">Save</button>
 			</section>
 		</section>
 
-		<section class="footer row right">
+		<section class="footer col-12">
 			<p>Version: </p>
 			<span class="version"></span>
 		</section>
