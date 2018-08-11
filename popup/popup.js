@@ -62,7 +62,6 @@ function showMenu(tab) {
 
 	// Form submit click event
 	document.getElementsByClassName('form-submit')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
-		console.log("dsdsd");
 		link.title = title.value;
 		link.url = url.value;
 

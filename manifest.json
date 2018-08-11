@@ -18,6 +18,12 @@
 		"tabs",
 		"storage",
 		"unlimitedStorage"
-	]
+	],
+
+	"applications": {
+		"gecko": {
+			"id": "ammoliac@ammoliac.com"
+		}
+	}
 
 }
