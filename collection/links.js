@@ -13,13 +13,44 @@ function render() {
 
 			var link = document.createElement('a');
 			link.setAttribute('href', tab.url);
-			link.innerHTML = tab.title + " || tags: " + JSON.stringify(tab.tags);
-
+			link.innerHTML = tab.title;
+			
 			var li = document.createElement('li');
-
+			
 			list.appendChild(li).appendChild(link);
+
+			// Iterate over all tags
+			Object.keys(tab.tags).forEach(function(key) {
+				var tag = document.createElement('span');
+				tag.setAttribute('class', 'tooltip tag');
+				tag.innerHTML = key;
+
+				rcolor = getColor();
+				setBackground(tag, rcolor);
+
+				var tagvalue = document.createElement('span');
+				tagvalue.setAttribute('class', 'tooltiptext tag-value');
+				tagvalue.innerHTML = tab.tags[key];
+
+				li.appendChild(tag).appendChild(tagvalue);
+			});
 		}
 	}
+}
+
+// Random color generator
+function getColor() {
+	return (
+		"#" +
+		Math.random()
+			.toString(16)
+			.slice(2, 8)
+	);
+}
+
+// Set background color of an element
+function setBackground(ele, color) {
+	ele.style.background = color;
 }
 
 // Delete all links
