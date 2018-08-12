@@ -20,7 +20,7 @@ function render() {
 			list.appendChild(li).appendChild(link);
 
 			// Iterate over all tags
-			Object.keys(tab.tags).forEach(function(key) {
+			for(var key in tab.tags) {
 				var tag = document.createElement('span');
 				tag.setAttribute('class', 'tooltip tag');
 				tag.innerHTML = key;
@@ -33,7 +33,7 @@ function render() {
 				tagvalue.innerHTML = tab.tags[key];
 
 				li.appendChild(tag).appendChild(tagvalue);
-			});
+			}
 		}
 	}
 }
