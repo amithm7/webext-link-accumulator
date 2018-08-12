@@ -6,6 +6,7 @@ function render() {
 	browser.storage.local.get().then(onGot);
 
 	function onGot(store) {
+		console.log(store);
 		// Iterate over stored links and display them
 		for (i = 0; i < store.keys.length; i++) {
 			var tab = store[store.keys[i]];

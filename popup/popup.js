@@ -20,6 +20,7 @@ window.onload = function() {
 	});
 };
 
+// Show popup menu
 function showMenu(tab) {
 	// A link's data
 	var link = {
@@ -49,14 +50,14 @@ function showMenu(tab) {
 	// To add multiple tags
 	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		// Clear input fields
-		saveTag(link, tag, tagVal);
+		addTag(link, tag, tagVal);
 		tag.value = "";
 		tagVal.value = "";
 	});
 
 	// Multiple tag values
 	document.getElementsByClassName('tag-value')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
-		saveTag(link, tag, tagVal);
+		addTag(link, tag, tagVal);
 		tagVal.value = "";
 	});
 
@@ -65,14 +66,15 @@ function showMenu(tab) {
 		link.title = title.value;
 		link.url = url.value;
 
-		saveTag(link, tag, tagVal);
+		addTag(link, tag, tagVal);
 
 		console.log(link);
 		saveTab(link);
 	});
 }
 
-function saveTag(link, tag, tagVal) {
+// Add tag data to link object
+function addTag(link, tag, tagVal) {
 	var key = tag.value;
 	var value = tagVal.value;
 	if (tag.value !== ""){
@@ -87,14 +89,17 @@ function saveTag(link, tag, tagVal) {
 	}
 }
 
+// Save Tab data to memory
 function saveTab(link) {
 	var key;
 	var keys = [];
 
+	// Tab ids
 	keysP = browser.storage.local.get('keys');
 	keysP.then(gotKeys);
 
 	function gotKeys(input) {		// async
+		console.log(input);
 		if (input.keys != undefined && input.keys.length > 0) {
 			keys = input.keys;
 			key = keys[keys.length - 1] + 1;
@@ -102,14 +107,34 @@ function saveTab(link) {
 			key = 1;
 		}
 		keys.push(key);
+		// Update tab id's array
 		browser.storage.local.set({'keys': keys});
 
-		var tab = {};
-		tab[key] = link;
-		browser.storage.local.set(tab);
+		// Add tab data to store obejct
+		var store = {};
+		store[key] = link;
 
-		// reload collection page after adding link
-		reloadCollection();
+		// Add tags array to store object
+		var tagsArr = [];
+		tagsP = browser.storage.local.get('tags');
+		tagsP.then(gotTags);
+
+		function gotTags(input) {
+			if (input.tags != undefined && input.tags.length > 0) {
+				tagsArr = input.tags;
+			}
+			for (var tag in link.tags) {
+				tagsArr.push(tag);
+			}
+
+			store.tags = tagsArr;
+
+			// Update storage
+			browser.storage.local.set(store);
+	
+			// reload collection page after adding link
+			reloadCollection();
+		}
 	}
 }
 
