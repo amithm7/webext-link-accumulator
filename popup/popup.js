@@ -100,6 +100,10 @@ function saveTab(link) {
 
 	function gotKeys(input) {		// async
 		console.log(input);
+
+		var storageUpdated;
+		var linkTags = link.tags;
+
 		if (input.keys != undefined && input.keys.length > 0) {
 			keys = input.keys;
 			key = keys[keys.length - 1] + 1;
@@ -114,10 +118,24 @@ function saveTab(link) {
 		var store = {};
 		store[key] = link;
 
-		// Add tags array to store object
-		var tagsArr = [];
-		tagsP = browser.storage.local.get('tags');
-		tagsP.then(gotTags);
+		// If no tags exist
+		if (Object.keys(linkTags).length == 0) {
+			// Update storage
+			storageUpdated = browser.storage.local.set(store);
+
+			storageUpdated.then(function(){
+				disableSaveBtn();
+
+				// reload collection page after adding link
+				reloadCollection();
+			});
+
+		} else {
+			// Add tags array to store object
+			var tagsArr = [];
+			tagsP = browser.storage.local.get('tags');
+			tagsP.then(gotTags);
+		}
 
 		function gotTags(input) {
 			if (input.tags != undefined && input.tags.length > 0) {
@@ -128,12 +146,6 @@ function saveTab(link) {
 			}
 
 			store.tags = Array.from(new Set(tagsArr));
-
-			// Update storage
-			browser.storage.local.set(store);
-
-			// reload collection page after adding link
-			reloadCollection();
 
 			// Store tag values array to store object
 			for (tag in link.tags) {
@@ -154,14 +166,24 @@ function saveTab(link) {
 					store[tag] = Array.from(new Set(tagVArr));
 
 					// Update storage
-					browser.storage.local.set(store);
+					storageUpdated = browser.storage.local.set(store);
+					storageUpdated.then(function () {
+						disableSaveBtn();
 
-					// reload collection page after adding link
-					reloadCollection();
+						// reload collection page after adding link
+						reloadCollection();
+					});
 				}
 			}
 		}
 	}
+}
+
+function disableSaveBtn() {
+	var saveButton = document.getElementsByClassName('form-submit')[0].getElementsByTagName('button')[0];
+	saveButton.innerHTML = "Saved!";
+	saveButton.style.backgroundColor = 'white';
+	saveButton.disabled = true;
 }
 
 function reloadCollection() {
