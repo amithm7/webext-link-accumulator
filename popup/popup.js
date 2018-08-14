@@ -127,7 +127,7 @@ function saveTab(link) {
 				tagsArr.push(tag);
 			}
 
-			store.tags = tagsArr;
+			store.tags = Array.from(new Set(tagsArr));
 
 			// Update storage
 			browser.storage.local.set(store);
@@ -151,7 +151,7 @@ function saveTab(link) {
 					}
 					tagVArr.push.apply(tagVArr, link.tags[tag]);
 
-					store[tag] = tagVArr;
+					store[tag] = Array.from(new Set(tagVArr));
 
 					// Update storage
 					browser.storage.local.set(store);
