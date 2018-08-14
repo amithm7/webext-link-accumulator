@@ -129,6 +129,12 @@ function saveTab(link) {
 
 			store.tags = tagsArr;
 
+			// Update storage
+			browser.storage.local.set(store);
+
+			// reload collection page after adding link
+			reloadCollection();
+
 			// Store tag values array to store object
 			for (tag in link.tags) {
 				storeTag(tag);
