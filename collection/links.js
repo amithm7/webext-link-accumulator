@@ -39,16 +39,6 @@ function render() {
 	}
 }
 
-// Random color generator
-function getColor() {
-	return (
-		"#" +
-		Math.random()
-			.toString(16)
-			.slice(2, 8)
-	);
-}
-
 // Set background color of an element
 function setBackground(ele, color) {
 	ele.style.background = color;
