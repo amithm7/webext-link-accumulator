@@ -47,6 +47,29 @@ function showMenu(tab) {
 	var tag = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
 	var tagVal = document.getElementsByClassName('tag-value')[0].getElementsByTagName('input')[0];
 
+	tagsP = browser.storage.local.get('tags');
+	tagsP.then(function(input) {
+		$('.tag-name input').autocomplete({
+			source: input.tags,
+			autoFocus: true
+		});
+	});
+
+	tagVal.addEventListener('focus', function(){
+		if (tag.value !== "") {
+			var tagIn = tag.value;
+			tagVP = browser.storage.local.get(tagIn);
+			tagVP.then(function(input) {
+				if (input[tagIn] != undefined) {
+					$('.tag-value input').autocomplete({
+						source: input[tagIn],
+						autoFocus: true
+					});
+				}
+			});
+		}
+	});
+
 	// To add multiple tags
 	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		// Clear input fields

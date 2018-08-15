@@ -191,3 +191,15 @@ body {
 	100%{color: blue;}
 	100%{color: orange;}
 }
+
+/* JQuery UI */
+.ui-autocomplete {
+	bottom: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background-color: white;
+}
+
+.ui-autocomplete li:hover {
+	background-color: #cfd0d1;
+}
