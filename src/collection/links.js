@@ -8,8 +8,8 @@ function render() {
 	function onGot(store) {
 		console.log(store);
 		// Iterate over stored links and display them
-		for (i = 0; i < store.keys.length; i++) {
-			var tab = store[store.keys[i]];
+		for (i = 0; i < store.tabIDList.length; i++) {
+			var tab = store[store.tabIDList[i]];
 			console.log(tab);
 
 			var link = document.createElement('a');

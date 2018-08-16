@@ -1,14 +1,14 @@
-var extensionID = browser.i18n.getMessage("@@extension_id");	// Extension id
+var extensionID = browser.i18n.getMessage("@@extension_id");
 
 window.onload = function() {
-	// Extract the current tab open which extension popup is opened
+	// Extract the current tab data on which extension popup is opened
 	browser.tabs.query({ currentWindow: true, active: true }).then(function(input) {
 		var currentTab = input[0];
 		console.log(currentTab);
 		showMenu(currentTab);
 	});
 
-	// Open collection of links
+	// Open collection of links stored
 	document.getElementsByClassName('view-links')[0].addEventListener('click', function() {
 		browser.tabs.create({ url: "../collection/links.html" });
 	});
@@ -38,22 +38,20 @@ function showMenu(currentTab) {
 	url.value = tab.url;
 	
 	// Get tags data
-	var tag = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
-	var tagVal = document.getElementsByClassName('tag-value')[0].getElementsByTagName('input')[0];
+	var tagType = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
+	var tagName = document.getElementsByClassName('tag-value')[0].getElementsByTagName('input')[0];
 	
-	tagsP = browser.storage.local.get('tags');
-	tagsP.then(function(input) {
+	browser.storage.local.get('tags').then(function(input) {
 		$('.tag-name input').autocomplete({
 			source: input.tags,
 			autoFocus: true
 		});
 	});
 	
-	tagVal.addEventListener('focus', function(){
-		if (tag.value !== "") {
-			var tagIn = tag.value;
-			tagVP = browser.storage.local.get(tagIn);
-			tagVP.then(function(input) {
+	tagName.addEventListener('focus', function(){
+		if (tagType.value !== "") {
+			var tagIn = tagType.value;
+			browser.storage.local.get(tagIn).then(function(input) {
 				if (input[tagIn] != undefined) {
 					$('.tag-value input').autocomplete({
 						source: input[tagIn],
@@ -67,15 +65,15 @@ function showMenu(currentTab) {
 	// To add multiple tags
 	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		// Clear input fields
-		addTag(tab, tag, tagVal);
-		tag.value = "";
-		tagVal.value = "";
+		addTag(tab, tagType, tagName);
+		tagType.value = "";
+		tagName.value = "";
 	});
 	
 	// Multiple tag values
 	document.getElementsByClassName('tag-value')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
-		addTag(tab, tag, tagVal);
-		tagVal.value = "";
+		addTag(tab, tagType, tagName);
+		tagName.value = "";
 	});
 	
 	// Form submit click event
@@ -83,37 +81,37 @@ function showMenu(currentTab) {
 		tab.title = title.value;
 		tab.url = url.value;
 		
-		addTag(tab, tag, tagVal);
+		addTag(tab, tagType, tagName);
 		
 		console.log(tab);
 		saveTab(tab);
 	});
 }
 
-// Add tag data to link object
-function addTag(tab, tag, tagVal) {
-	var key = tag.value;
-	var value = tagVal.value;
-	if (tag.value !== ""){
-		if(tab.tags[key] != undefined && tab.tags[key].length > 0) {
-			if (value !== "")
-			tab.tags[key].push(value);
+// Add tag data to tab object
+function addTag(tab, tagType, tagName) {
+	var tagTypeVal = tagType.value;
+	var tagNameVal = tagName.value;
+
+	if (tagTypeVal !== ""){
+		if(tab.tags[tagTypeVal] != undefined && tab.tags[tagTypeVal].length > 0) {
+			if (tagNameVal !== "")
+			tab.tags[tagTypeVal].push(tagNameVal);
 		} else {
-			tab.tags[key] = [];
-			if (value !== "")
-			tab.tags[key].push(value);
+			tab.tags[tagTypeVal] = [];
+			if (tagNameVal !== "")
+			tab.tags[tagTypeVal].push(tagNameVal);
 		}
 	}
 }
 
 // Save Tab data to memory
 function saveTab(tab) {
-	var key;
-	var keys = [];
+	var tabID;
+	var tabIDList = [];
 	
-	// Tab ids
-	keysP = browser.storage.local.get('keys');
-	keysP.then(gotKeys);
+	// Retrive stored Tab ids
+	browser.storage.local.get('tabIDList').then(gotKeys);
 	
 	function gotKeys(input) {		// async
 		console.log(input);
@@ -121,19 +119,19 @@ function saveTab(tab) {
 		var storageUpdated;
 		var linkTags = tab.tags;
 		
-		if (input.keys != undefined && input.keys.length > 0) {
-			keys = input.keys;
-			key = keys[keys.length - 1] + 1;
+		if (input.tabIDList != undefined && input.tabIDList.length > 0) {
+			tabIDList = input.tabIDList;
+			tabID = tabIDList[tabIDList.length - 1] + 1;
 		} else {
-			key = 1;
+			tabID = 1;
 		}
-		keys.push(key);
+		tabIDList.push(tabID);
 		// Update tab id's array
-		browser.storage.local.set({'keys': keys});
+		browser.storage.local.set({'tabIDList': tabIDList});
 		
 		// Add tab data to store obejct
 		var store = {};
-		store[key] = tab;
+		store[tabID] = tab;
 		
 		// If no tags exist
 		if (Object.keys(linkTags).length == 0) {
@@ -148,13 +146,12 @@ function saveTab(tab) {
 			});
 			
 		} else {
-			// Add tags array to store object
-			var tagsArr = [];
-			tagsP = browser.storage.local.get('tags');
-			tagsP.then(gotTags);
+			// Add tags array to `store` object
+			browser.storage.local.get('tags').then(gotTags);
 		}
 		
 		function gotTags(input) {
+			var tagsArr = [];
 			if (input.tags != undefined && input.tags.length > 0) {
 				tagsArr = input.tags;
 			}
@@ -170,8 +167,7 @@ function saveTab(tab) {
 			}
 			
 			function storeTag(tag) {
-				tagVP = browser.storage.local.get(tag);
-				tagVP.then(gotTagV);
+				browser.storage.local.get(tag).then(gotTagV);
 				
 				function gotTagV(input) {
 					var tagVArr = [];
