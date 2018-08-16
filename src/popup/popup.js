@@ -28,6 +28,7 @@ function showMenu(currentTab) {
 		favIconUrl: currentTab.favIconUrl,
 
 		name: getTitleName(currentTab.title, currentTab.url),
+		date: getDateString(),
 		tags: {}
 	};
 	
