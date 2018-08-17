@@ -3,6 +3,31 @@
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.top {
+	display: flex;
+}
+
+.collection ul {
+	display: inline-block;
+	list-style: none;
+}
+
+.collection ul li {
+	padding: 0.2em 0.5em;
+}
+
+.collection ul li a {
+	display: flex;
+	color: black;
+	text-decoration: none;
+}
+
+.collection ul li:hover {
+	border: solid #71a8a8a6 1px;
+	border-radius: 4px;
+	background-color: #97fcfc48;
+}
+
 .tag {
 	/* background-color: #95be01; */
 	padding: 0.3em;
