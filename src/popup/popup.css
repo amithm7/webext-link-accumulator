@@ -100,7 +100,13 @@ body {
 }
 
 .form-submit .btn {
-	background-color: aquamarine;
+	background-color: #fcbc68;
+}
+
+.disabled-save-btn:disabled {
+	background-color: #dadada;
+	color: #138d3b;
+	font-weight: bold;
 }
 
 .footer {

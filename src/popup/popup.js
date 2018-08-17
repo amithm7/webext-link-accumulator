@@ -200,9 +200,9 @@ function getTitleName(title, url) {
 
 function disableSaveBtn() {
 	var saveButton = document.getElementsByClassName('form-submit')[0].getElementsByTagName('button')[0];
-	saveButton.innerHTML = "Saved!";
-	saveButton.style.backgroundColor = 'white';
 	saveButton.disabled = true;
+	saveButton.innerHTML = "Saved!";
+	saveButton.classList.add('disabled-save-btn');
 }
 
 function reloadCollection() {
