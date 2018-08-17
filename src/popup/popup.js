@@ -106,6 +106,25 @@ function addTag(tab, tagType, tagName) {
 	}
 }
 
+function saveTabToDate(tabID) {
+	browser.storage.local.get('tabsOnDate').then(function(input) {
+		var tabsOnDate = {};
+		var date = getDateString();
+		var tabIDList = [];
+
+		if (input.tabsOnDate != undefined) {
+			tabsOnDate = input.tabsOnDate;
+		}
+		if (tabsOnDate[date] != undefined && tabsOnDate[date].length > 0) {
+			tabIDList = tabsOnDate[date];
+		}
+		tabIDList.push(tabID);
+		tabsOnDate[date] = tabIDList;
+
+		browser.storage.local.set({'tabsOnDate': tabsOnDate});
+	});
+}
+
 // Save Tab data to memory
 function saveTab(tab) {
 	var tabID;
@@ -129,6 +148,8 @@ function saveTab(tab) {
 		tabIDList.push(tabID);
 		// Update tab id's array
 		browser.storage.local.set({'tabIDList': tabIDList});
+
+		saveTabToDate(tabID);
 		
 		// Add tab data to store obejct
 		var store = {};
