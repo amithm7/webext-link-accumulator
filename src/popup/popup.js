@@ -112,9 +112,9 @@ function saveTab(tab) {
 	var tabIDList = [];
 	
 	// Retrive stored Tab ids
-	browser.storage.local.get('tabIDList').then(gotKeys);
+	browser.storage.local.get('tabIDList').then(gotTabIDList);
 	
-	function gotKeys(input) {		// async
+	function gotTabIDList(input) {		// async
 		console.log(input);
 		
 		var storageUpdated;
@@ -122,10 +122,10 @@ function saveTab(tab) {
 		
 		if (input.tabIDList != undefined && input.tabIDList.length > 0) {
 			tabIDList = input.tabIDList;
-			tabID = tabIDList[tabIDList.length - 1] + 1;
-		} else {
-			tabID = 1;
 		}
+
+		tabID = getDateString().replace(/-/g, '') + '-' + ID();
+
 		tabIDList.push(tabID);
 		// Update tab id's array
 		browser.storage.local.set({'tabIDList': tabIDList});
