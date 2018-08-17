@@ -18,6 +18,12 @@ function displayList(store, tabIDList) {
 
 		var link = document.createElement('a');
 		link.setAttribute('href', tab.url);
+		link.setAttribute('target', '_blank');
+
+		// Security - https://developers.google.com/web/tools/lighthouse/audits/noopener
+		// https://www.thesitewizard.com/html-tutorial/open-links-in-new-window-or-tab.shtml
+		link.setAttribute('rel', 'noopener noreferrer');
+
 		link.innerHTML = tab.title;
 
 		var li = document.createElement('li');
