@@ -39,11 +39,11 @@ function showMenu(currentTab) {
 	url.value = tab.url;
 	
 	// Get tags data
-	var tagType = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
-	var tagName = document.getElementsByClassName('tag-value')[0].getElementsByTagName('input')[0];
+	var tagType = document.getElementsByClassName('tag-type')[0].getElementsByTagName('input')[0];
+	var tagName = document.getElementsByClassName('tag-name')[0].getElementsByTagName('input')[0];
 	
 	browser.storage.local.get('tags').then(function(input) {
-		$('.tag-name input').autocomplete({
+		$('.tag-type input').autocomplete({
 			source: input.tags,
 			autoFocus: true
 		});
@@ -54,7 +54,7 @@ function showMenu(currentTab) {
 			var tagIn = tagType.value;
 			browser.storage.local.get(tagIn).then(function(input) {
 				if (input[tagIn] != undefined) {
-					$('.tag-value input').autocomplete({
+					$('.tag-name input').autocomplete({
 						source: input[tagIn],
 						autoFocus: true
 					});
@@ -64,7 +64,7 @@ function showMenu(currentTab) {
 	});
 	
 	// To add multiple tags
-	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
+	document.getElementsByClassName('tag-type')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		// Clear input fields
 		addTag(tab, tagType, tagName);
 		tagType.value = "";
@@ -72,7 +72,7 @@ function showMenu(currentTab) {
 	});
 	
 	// Multiple tag values
-	document.getElementsByClassName('tag-value')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
+	document.getElementsByClassName('tag-name')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
 		addTag(tab, tagType, tagName);
 		tagName.value = "";
 	});

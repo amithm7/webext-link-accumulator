@@ -40,7 +40,7 @@ function displayList(store, tabIDList) {
 			setBackground(tag, rcolor);
 
 			var tagvalue = document.createElement('span');
-			tagvalue.setAttribute('class', 'tooltiptext tag-value');
+			tagvalue.setAttribute('class', 'tooltiptext tag-name');
 			tagvalue.innerHTML = tab.tags[key];
 
 			li.appendChild(tag).appendChild(tagvalue);
