@@ -97,7 +97,7 @@ function render() {
 document.getElementById('clear-all').addEventListener('click', function() {
 	if(confirm("Are you sure you want to delete all the links?")){
 		browser.storage.local.clear();
-		list.innerHTML = "";
+		collectionSection.innerHTML = "";
 	}
 });
 

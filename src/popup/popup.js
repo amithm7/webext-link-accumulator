@@ -44,23 +44,21 @@ function showMenu(currentTab) {
 	
 	browser.storage.local.get('tags').then(function(input) {
 		$('.tag-type input').autocomplete({
-			source: input.tags,
+			source: Object.keys(input.tags),
 			autoFocus: true
 		});
-	});
-	
-	tagName.addEventListener('focus', function(){
-		if (tagType.value !== "") {
-			var tagIn = tagType.value;
-			browser.storage.local.get(tagIn).then(function(input) {
-				if (input[tagIn] != undefined) {
+
+		tagName.addEventListener('focus', function () {
+			if (tagType.value !== "") {
+				var tagIn = tagType.value;
+				if (input.tags[tagIn] != undefined) {
 					$('.tag-name input').autocomplete({
-						source: input[tagIn],
+						source: Object.keys(input.tags[tagIn]),
 						autoFocus: true
 					});
 				}
-			});
-		}
+			}
+		});
 	});
 	
 	// To add multiple tags
@@ -106,7 +104,7 @@ function addTag(tab, tagType, tagName) {
 	}
 }
 
-function saveTabToDate(tabID) {
+function cacheDates(tabID) {
 	browser.storage.local.get('tabsOnDate').then(function(input) {
 		var tabsOnDate = {};
 		var date = getDateString();
@@ -125,9 +123,39 @@ function saveTabToDate(tabID) {
 	});
 }
 
+function cacheTags(tab, tabID) {
+	browser.storage.local.get('tags').then(function(input) {
+		var tags = {};
+		if (input.tags != undefined) {
+			tags = input.tags;
+		}
+		for (var tagType in tab.tags) {
+			if (tags[tagType] == undefined) {
+				tags[tagType] = {};
+			}
+			for (var i = 0; i < tab.tags[tagType].length; i++) {
+				var tagName = tab.tags[tagType][i];
+				if (tags[tagType][tagName] != undefined) {
+					tags[tagType][tagName].push(tabID);
+				} else {
+					tags[tagType][tagName] = [tabID];
+				}
+			}
+		}
+
+		browser.storage.local.set({'tags': tags});
+	});
+}
+
+// add tab parameters to "Cache" to organise / sort
+function updateCachePopulation(tab, tabID) {
+	cacheDates(tabID);
+	cacheTags(tab, tabID);
+}
+
 // Save Tab data to memory
 function saveTab(tab) {
-	var tabID;
+	var tabID = 'tab-' + getDateString().replace(/-/g, '') + '-' + ID();
 	var tabIDList = [];
 	
 	// Retrive stored Tab ids
@@ -137,80 +165,31 @@ function saveTab(tab) {
 		console.log(input);
 		
 		var storageUpdated;
-		var linkTags = tab.tags;
 		
 		if (input.tabIDList != undefined && input.tabIDList.length > 0) {
 			tabIDList = input.tabIDList;
 		}
 
-		tabID = getDateString().replace(/-/g, '') + '-' + ID();
-
 		tabIDList.push(tabID);
 		// Update tab id's array
 		browser.storage.local.set({'tabIDList': tabIDList});
 
-		saveTabToDate(tabID);
-		
 		// Add tab data to store obejct
 		var store = {};
 		store[tabID] = tab;
+
+		// Update storage
+		storageUpdated = browser.storage.local.set(store);
 		
-		// If no tags exist
-		if (Object.keys(linkTags).length == 0) {
-			// Update storage
-			storageUpdated = browser.storage.local.set(store);
+		storageUpdated.then(function(){
+			disableSaveBtn();
 			
-			storageUpdated.then(function(){
-				disableSaveBtn();
-				
-				// reload collection page after adding link
-				reloadCollection();
-			});
-			
-		} else {
-			// Add tags array to `store` object
-			browser.storage.local.get('tags').then(gotTags);
-		}
-		
-		function gotTags(input) {
-			var tagsArr = [];
-			if (input.tags != undefined && input.tags.length > 0) {
-				tagsArr = input.tags;
-			}
-			for (var tag in tab.tags) {
-				tagsArr.push(tag);
-			}
-			
-			store.tags = Array.from(new Set(tagsArr));
-			
-			// Store tag values array to store object
-			for (tag in tab.tags) {
-				storeTag(tag);
-			}
-			
-			function storeTag(tag) {
-				browser.storage.local.get(tag).then(gotTagV);
-				
-				function gotTagV(input) {
-					var tagVArr = [];
-					if (input[tag] != undefined && input[tag].length > 0) {
-						tagVArr = input[tag];
-					}
-					tagVArr.push.apply(tagVArr, tab.tags[tag]);
-					
-					store[tag] = Array.from(new Set(tagVArr));
-					
-					// Update storage
-					storageUpdated = browser.storage.local.set(store);
-					storageUpdated.then(function () {
-						disableSaveBtn();
-						
-						// reload collection page after adding link
-						reloadCollection();
-					});
-				}
-			}
-		}
+			// reload collection page after adding link
+			reloadCollection();
+		});
+
+		// Store (Cache) data to organise
+		updateCachePopulation(tab, tabID);
 	}
 }
 
