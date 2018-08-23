@@ -7,12 +7,14 @@
 
 body {
 	margin: 0;
+	width: 360px;
+	overflow: hidden;
+	min-width: 320px;
 }
 
 /* Frame */
 .row {
 	width: 100vw;
-	min-width: 27em;
 	max-width: 40em;
 }
 
@@ -35,30 +37,31 @@ body {
 /* Page elements */
 .content {
 	padding: 0.5em;
-	background-color: #526070;
-	background: linear-gradient(275deg, #526070, #6f859e);
 }
 
 .btn {
 	border-radius: 0.5em;
-	border: 0;
-	padding: 1em;
+	border: outset 1px;
+	padding: 0.7em;
 }
 
 .top {
 	display: flex;
 	text-align: center;
-	padding: 0 0 0.5em 0;
+	padding: 0.5em 0.1em;
+	background-color: #afafaf;
 }
 
-.header {
+.appinfo {
 	margin: auto;
-	font-weight: bold;
+}
+
+.version-number {
+	font-size: 0.6em;
 }
 
 .close {
-	background-color: darkred;
-	color: aliceblue;
+	float: right;
 }
 
 .form-basic {
@@ -78,8 +81,11 @@ body {
 }
 
 .tag div {
-	display: flex;
 	flex-direction: column;
+}
+
+.tag input {
+	width: calc(100% - 2.4em);
 }
 
 .tag-type {
@@ -88,11 +94,6 @@ body {
 
 .tag-name {
 	padding: 0 0 0 0.2em;
-}
-
-.more {
-	background-color: #5a7e5a;
-	color: aliceblue;
 }
 
 .form-submit {
@@ -114,8 +115,7 @@ body {
 }
 
 .view-links {
-	background-color: #2a313d;
-	color: white;
+	float: left;
 }
 
 /* Tooltips */

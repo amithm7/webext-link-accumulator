@@ -100,20 +100,3 @@ document.getElementById('clear-all').addEventListener('click', function() {
 		collectionSection.innerHTML = "";
 	}
 });
-
-// Footer - get Version
-function loadJSON(callback) {
-	var xobj = new XMLHttpRequest();
-	xobj.overrideMimeType("application/json");
-	xobj.open('GET', '../manifest.json', true);
-	xobj.onreadystatechange = function () {
-		if (xobj.readyState == 4 && xobj.status == "200") {
-			callback(xobj.responseText);
-		}
-	};
-	xobj.send(null);
-}
-loadJSON(function (response) {
-	var manifest = JSON.parse(response);
-	$('.version-number')[0].innerHTML = manifest.version;
-});

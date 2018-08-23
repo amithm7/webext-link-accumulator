@@ -33,3 +33,21 @@ function uuidv4() {
 function ID() {
 	return Math.random().toString(36).substr(2, 9);
 }
+
+// Get manifest.json
+function loadJSON(callback) {
+	var xobj = new XMLHttpRequest();
+	xobj.overrideMimeType("application/json");
+	xobj.open('GET', '../manifest.json', true);
+	xobj.onreadystatechange = function () {
+		if (xobj.readyState == 4 && xobj.status == "200") {
+			callback(xobj.responseText);
+		}
+	};
+	xobj.send(null);
+}
+// Set '.version-number'
+loadJSON(function (response) {
+	var manifest = JSON.parse(response);
+	$('.version-number')[0].innerHTML = manifest.version;
+});
