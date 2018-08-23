@@ -3,6 +3,10 @@
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.btn {
+	padding: 0 1em;
+}
+
 .top {
 	display: flex;
 }
@@ -17,6 +21,8 @@
 }
 
 .collection ul li {
+	display: block;
+	border: solid #fff 1px;
 	padding: 0.2em 0.5em;
 }
 

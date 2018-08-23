@@ -16,34 +16,15 @@ function displayList(store, tabIDList) {
 		var tab = store[tabIDList[i]];
 		console.log(tab);
 
-		var link = document.createElement('a');
-		link.setAttribute('href', tab.url);
-		link.setAttribute('target', '_blank');
-
-		// Security - https://developers.google.com/web/tools/lighthouse/audits/noopener
-		// https://www.thesitewizard.com/html-tutorial/open-links-in-new-window-or-tab.shtml
-		link.setAttribute('rel', 'noopener noreferrer');
-
-		link.innerHTML = tab.title;
-
-		var li = document.createElement('li');
-
-		list.appendChild(li).appendChild(link);
+		$("ul:last").append(HTMLLinkItem.replace('%tabID%', tabIDList[i]).replace('%url%', tab.url).replace('%name%', tab.name));
 
 		// Iterate over all tags
 		for (var key in tab.tags) {
-			var tag = document.createElement('span');
-			tag.setAttribute('class', 'tooltip tag');
-			tag.innerHTML = key;
+			$("ul:last li:last").append(HTMLLinkItemTag.replace('%tagType%', key).replace('%tagNames%', tab.tags[key]));
 
+			var tag = document.querySelector("ul:last-child li:last-child .tag:last-child");
 			rcolor = getColor();
 			setBackground(tag, rcolor);
-
-			var tagvalue = document.createElement('span');
-			tagvalue.setAttribute('class', 'tooltiptext tag-name');
-			tagvalue.innerHTML = tab.tags[key];
-
-			li.appendChild(tag).appendChild(tagvalue);
 		}
 	}
 }
