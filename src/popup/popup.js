@@ -104,55 +104,6 @@ function addTag(tab, tagType, tagName) {
 	}
 }
 
-function cacheDates(tabID) {
-	browser.storage.local.get('tabsOnDate').then(function(input) {
-		var tabsOnDate = {};
-		var date = getDateString();
-		var tabIDList = [];
-
-		if (input.tabsOnDate != undefined) {
-			tabsOnDate = input.tabsOnDate;
-		}
-		if (tabsOnDate[date] != undefined && tabsOnDate[date].length > 0) {
-			tabIDList = tabsOnDate[date];
-		}
-		tabIDList.push(tabID);
-		tabsOnDate[date] = tabIDList;
-
-		browser.storage.local.set({'tabsOnDate': tabsOnDate});
-	});
-}
-
-function cacheTags(tab, tabID) {
-	browser.storage.local.get('tags').then(function(input) {
-		var tags = {};
-		if (input.tags != undefined) {
-			tags = input.tags;
-		}
-		for (var tagType in tab.tags) {
-			if (tags[tagType] == undefined) {
-				tags[tagType] = {};
-			}
-			for (var i = 0; i < tab.tags[tagType].length; i++) {
-				var tagName = tab.tags[tagType][i];
-				if (tags[tagType][tagName] != undefined) {
-					tags[tagType][tagName].push(tabID);
-				} else {
-					tags[tagType][tagName] = [tabID];
-				}
-			}
-		}
-
-		browser.storage.local.set({'tags': tags});
-	});
-}
-
-// add tab parameters to "Cache" to organise / sort
-function updateCachePopulation(tab, tabID) {
-	cacheDates(tabID);
-	cacheTags(tab, tabID);
-}
-
 // Save Tab data to memory
 function saveTab(tab) {
 	var tabID = 'tab-' + getDateString().replace(/-/g, '') + '-' + ID();
@@ -189,7 +140,7 @@ function saveTab(tab) {
 		});
 
 		// Store (Cache) data to organise
-		updateCachePopulation(tab, tabID);
+		updateCachePopulation(true, tabID, tab);
 	}
 }
 

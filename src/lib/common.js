@@ -1,3 +1,5 @@
+/*------------- General-------------------------------------------------------*/
+
 // Random color generator
 function getColor() {
 	return (
@@ -6,6 +8,15 @@ function getColor() {
 			.toString(16)
 			.slice(2, 8)
 	);
+}
+
+// Remove an element from array
+function arrayRemove(array, element) {
+	var index = array.indexOf(element);
+	if (index > -1) {
+		array.splice(index, 1);
+	}
+	return array;
 }
 
 // Current date string generator `YYYY-MM-DD`
@@ -34,6 +45,8 @@ function ID() {
 	return Math.random().toString(36).substr(2, 9);
 }
 
+/*------------- App Specific--------------------------------------------------*/
+
 // Get manifest.json
 function loadJSON(callback) {
 	var xobj = new XMLHttpRequest();
@@ -51,3 +64,90 @@ loadJSON(function (response) {
 	var manifest = JSON.parse(response);
 	$('.version-number')[0].innerHTML = manifest.version;
 });
+
+function updateCacheDates(operation, tabID, tab) {
+	browser.storage.local.get('tabsOnDate').then(function (input) {
+		var tabsOnDate = {};
+		var date = tab.date;
+		var tabIDList = [];
+
+		if (input.tabsOnDate != undefined) {
+			tabsOnDate = input.tabsOnDate;
+		}
+		if (tabsOnDate[date] != undefined && tabsOnDate[date].length > 0) {
+			tabIDList = tabsOnDate[date];
+		}
+
+		// Remove (false) or add (true) tabID to Cache
+		if (operation) {
+			tabIDList.push(tabID);
+		} else {
+			tabIDList = arrayRemove(tabIDList, tabID);
+		}
+		tabsOnDate[date] = tabIDList;
+
+		if (tabsOnDate[date].length < 1) {
+			delete tabsOnDate[date];
+		}
+
+		browser.storage.local.set({ 'tabsOnDate': tabsOnDate });
+	});
+}
+
+function updateCacheTags(operation, tabID, tab) {
+	browser.storage.local.get('tags').then(function (input) {
+		var tags = {};
+		if (input.tags != undefined) {
+			tags = input.tags;
+		}
+
+		for (var tagType in tab.tags) {
+			if (tags[tagType] == undefined) {
+				if (!operation) { break; }	// tag not present
+				tags[tagType] = {};
+			}
+			for (var i = 0; i < tab.tags[tagType].length; i++) {
+				var tagName = tab.tags[tagType][i];
+				if (tags[tagType][tagName] == undefined) {
+					if (!operation) { break; }	// tag not present
+					tags[tagType][tagName] = [tabID];
+				} else {
+					if (operation) {
+						tags[tagType][tagName].push(tabID);
+					} else {
+						tags[tagType][tagName] = arrayRemove(tags[tagType][tagName], tabID);
+					}
+				}
+
+				// if tag-name contains no tabs - remove key
+				if (tags[tagType][tagName].length < 1) {
+					delete tags[tagType][tagName];
+				}
+			}
+
+			// if tag-type contains any tabs - remove key
+			if (Object.keys(tags[tagType]).length < 1) {
+				delete tags[tagType];
+			}
+		}
+
+		browser.storage.local.set({ 'tags': tags });
+	});
+}
+
+// Update Population (Storage cache) about stored tabs (add(true) / remove(false))
+// add / remove tab parameters to "Cache" to organise / sort
+function updateCachePopulation(operation, tabID, tabData) {
+	if(!operation) {
+		browser.storage.local.get('tabIDList').then(function(input) {
+			var tabIDList = [];
+			if (input.tabIDList != undefined && input.tabIDList.length > 0) {
+				tabIDList = input.tabIDList;
+			}
+			tabIDList = arrayRemove(tabIDList, tabID);
+			browser.storage.local.set({ 'tabIDList': tabIDList });
+		});
+	}
+	updateCacheDates(operation, tabID, tabData);
+	updateCacheTags(operation, tabID, tabData);
+}

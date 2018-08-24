@@ -5,6 +5,19 @@ function setBackground(ele, color) {
 	ele.style.background = color;
 }
 
+// Delete individual link with delete btn
+function deleteTab() {
+	var li = this.parentNode;
+	var tabID = this.value;
+	browser.storage.local.get(tabID).then(function(input) {
+		var tabData = input[tabID];
+		browser.storage.local.remove(tabID).then(function() {
+			updateCachePopulation(false, tabID, tabData);
+			li.parentNode.removeChild(li);
+		});
+	});
+}
+
 var collectionSection = document.querySelector('.collection');
 
 function displayList(store, tabIDList) {
@@ -17,6 +30,9 @@ function displayList(store, tabIDList) {
 		console.log(tab);
 
 		$("ul:last").append(HTMLLinkItem.replace('%tabID%', tabIDList[i]).replace('%url%', tab.url).replace('%name%', tab.name));
+
+		var delBtn = document.querySelectorAll('.delete-link')[i];
+		delBtn.addEventListener('click', deleteTab);
 
 		// Iterate over all tags
 		for (var key in tab.tags) {
