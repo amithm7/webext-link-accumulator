@@ -33,8 +33,8 @@ function showMenu(currentTab) {
 	};
 	
 	// Display form for input
-	var title = document.getElementsByClassName('link-title')[0];
-	title.value = tab.title;
+	var name = document.getElementsByClassName('link-name')[0];
+	name.value = tab.name;
 	var url = document.getElementsByClassName('link-url')[0];
 	url.value = tab.url;
 	
@@ -77,7 +77,7 @@ function showMenu(currentTab) {
 	
 	// Form submit click event
 	document.getElementsByClassName('form-submit')[0].getElementsByTagName('button')[0].addEventListener('click', function() {
-		tab.title = title.value;
+		tab.name = name.value;
 		tab.url = url.value;
 		
 		addTag(tab, tagType, tagName);
