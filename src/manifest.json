@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Save to AmMoLiAc",
-	"version": "0.1",
+	"version": "0.1.0",
 
 	"description": "Collects and organizes links",
 
