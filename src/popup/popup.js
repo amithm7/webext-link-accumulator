@@ -89,8 +89,9 @@ function showMenu(currentTab) {
 
 // Add tag data to tab object
 function addTag(tab, tagType, tagName) {
-	var tagTypeVal = tagType.value;
-	var tagNameVal = tagName.value;
+	// Replace ( Not word (a-z, 0-9, _) & not - with - ) . Replace trailing -'s at start and end . Convert to lower case
+	var tagTypeVal = tagType.value.replace(/[^\w-]+/ig, '-').replace(/-+$/g, '').replace(/^-+/g, '').toLowerCase();
+	var tagNameVal = tagName.value.replace(/[^\w-]+/ig, '-').replace(/-+$/g, '').replace(/^-+/g, '').toLowerCase();
 
 	if (tagTypeVal !== ""){
 		if(tab.tags[tagTypeVal] != undefined && tab.tags[tagTypeVal].length > 0) {
