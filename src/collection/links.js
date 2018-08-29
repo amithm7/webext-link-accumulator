@@ -29,16 +29,16 @@ function displayList(store, tabIDList) {
 		var tab = store[tabIDList[i]];
 		console.log(tab);
 
-		$("ul:last").append(HTMLLinkItem.replace('%tabID%', tabIDList[i]).replace('%url%', tab.url).replace('%name%', tab.name));
+		$(".collection ul:last").append(HTMLLinkItem.replace('%tabID%', tabIDList[i]).replace('%url%', tab.url).replace('%name%', tab.name));
 
 		var delBtn = document.querySelectorAll('.delete-link')[i];
 		delBtn.addEventListener('click', deleteTab);
 
 		// Iterate over all tags
 		for (var key in tab.tags) {
-			$("ul:last li:last").append(HTMLLinkItemTag.replace('%tagType%', key).replace('%tagNames%', tab.tags[key]));
+			$(".collection ul:last li:last").append(HTMLLinkItemTag.replace('%tagType%', key).replace('%tagNames%', tab.tags[key]));
 
-			var tag = document.querySelector("ul:last-child li:last-child .tag:last-child");
+			var tag = document.querySelector(".collection ul:last-child li:last-child .tag:last-child");
 			rcolor = getColor();
 			setBackground(tag, rcolor);
 		}
