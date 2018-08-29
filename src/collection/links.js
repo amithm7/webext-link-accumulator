@@ -31,7 +31,7 @@ function displayList(store, tabIDList) {
 
 		$(".collection ul:last").append(HTMLLinkItem.replace('%tabID%', tabIDList[i]).replace('%url%', tab.url).replace('%name%', tab.name));
 
-		var delBtn = document.querySelectorAll('.delete-link')[i];
+		var delBtn = document.querySelectorAll('.collection ul:last-child .delete-link')[i];
 		delBtn.addEventListener('click', deleteTab);
 
 		// Iterate over all tags
