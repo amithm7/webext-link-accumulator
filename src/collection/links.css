@@ -3,12 +3,56 @@
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
 .btn {
-	padding: 0 1em;
+	padding: 0.5 1em;
 }
 
 .top {
 	display: flex;
+	padding: 0.5em;
+	border: 0;
+	box-shadow: inset 0 -1px 3px rgba(0,0,0,0.08);
+	background-color: #878d91;
+}
+
+#clear-all {
+	border-radius: 0.5em;
+	border: none;
+	background-color: #dd3e3e;
+	color: #ffffff;
+}
+
+.list-sorting {
+	border-radius: 1em;
+	border: solid #f0b994 1px;
+	padding: 0.5em;
+	margin: 0 0 0 0.5em;
+}
+
+.tag-matching {
+	border-radius: 1em;
+	border: solid #f0b994 1px;
+	padding: 1em;
+	margin: 0 0 0 0.5em;
+}
+
+.tag-matching input {
+	border-radius: 0.5em;
+	padding: 0.5em;
+	border: solid 1px #9b8383;
+}
+
+.tag-matching-save {
+	border-radius: 0.5em;
+	border: none;
+	padding: 0.5em 1em;
+	background-color: #3e17eb;
+	color: #ffffff;
 }
 
 .collection {

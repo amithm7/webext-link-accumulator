@@ -1,3 +1,5 @@
+var matchedTagArray = [];
+
 render();
 
 // Set background color of an element
@@ -67,6 +69,15 @@ function displayByDate(store) {
 	});
 }
 
+function matchTags(store, tagType, tagName) {
+	if (store.tags[tagType][tagName] != undefined) {
+		matchedTagArray.push.apply(matchedTagArray, store.tags[tagType][tagName]);
+		matchedTagArray = Array.from(new Set(matchedTagArray));
+		collectionSection.innerHTML = "";
+		displayList(store, matchedTagArray);
+	}
+}
+
 function render() {
 	browser.storage.local.get().then(onGot);
 
@@ -81,12 +92,46 @@ function render() {
 
 		function sortBy() {
 			if (sorting.value == "none") {
+				$('.tag-matching').show();
 				displayNoSort(store);
 			} else if (sorting.value == "byDate"){
+				$('.tag-matching').hide();
 				displayByDate(store);
 			}
 		}
 		sortBy();
+
+		// Input elements
+		var tagType = document.querySelectorAll('.tag-matching input:nth-child(1)')[0];
+		var tagName = document.querySelectorAll('.tag-matching input:nth-child(2)')[0];
+
+		$('.tag-matching input:nth-child(1)').autocomplete({
+			source: Object.keys(store.tags),
+			autoFocus: true,
+			minLength: 0
+		}).focus(function() {
+			$(this).autocomplete("search", "");
+		});
+		
+		tagName.addEventListener('focus', function () {
+			if (tagType.value !== "") {
+				var tagIn = tagType.value;
+				if (store.tags[tagIn] != undefined) {
+					$('.tag-matching input:nth-child(2)').autocomplete({
+						source: Object.keys(store.tags[tagIn]),
+						autoFocus: true,
+						minLength: 0
+					}).focus(function () {
+						$(this).autocomplete("search", "");
+					});
+				}
+			}
+		});
+
+		// Tag matching
+		document.querySelector(".tag-matching-save").addEventListener('click', function () {
+			matchTags(store, tagType.value, tagName.value);
+		});
 	}
 }
 

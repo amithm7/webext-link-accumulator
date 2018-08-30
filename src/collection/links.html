@@ -5,8 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<!-- <link rel="stylesheet" href="../lib/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="../lib/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/common.css">
 	<link rel="stylesheet" href="links.css">
 	<script src="../lib/jquery-3.3.1.min.js"></script>
+	<script src="../lib/jquery-ui.min.js"></script>
 	<script src="../lib/common.js"></script>
 	<script src="template.js"></script>
 	<title>Link Accumulator</title>
@@ -16,8 +19,13 @@
 		<section class="top">
 			<button id="clear-all">Delete All</button>
 			<form class="list-sorting">
-				<input type="radio" name="sortBy" value="byDate" checked>Sort by Date<br>
-				<input type="radio" name="sortBy" value="none">No Sort<br>
+				<input type="radio" name="sortBy" value="byDate">Sort by Date<br>
+				<input type="radio" name="sortBy" value="none" checked>No Sort<br>
+			</form>
+			<form class="tag-matching">
+				<input type="text" placeholder="Tag Type">
+				<input type="text" placeholder="Tag Name">
+				<button type="button" class="tag-matching-save">Match</button>
 			</form>
 		</section>
 		<section class="collection"></section>
