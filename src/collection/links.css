@@ -17,7 +17,6 @@ html, body {
 	padding: 0.5em;
 	border: 0;
 	box-shadow: inset 0 -1px 3px rgba(0,0,0,0.08);
-	background-color: #878d91;
 }
 
 #clear-all {
@@ -37,7 +36,7 @@ html, body {
 .tag-matching {
 	border-radius: 1em;
 	border: solid #f0b994 1px;
-	padding: 1em;
+	padding: 0.9em;
 	margin: 0 0 0 0.5em;
 }
 
